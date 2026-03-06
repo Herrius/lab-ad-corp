@@ -1,4 +1,4 @@
-# join-domain.ps1
+﻿# join-domain.ps1
 # Une WS01 al dominio corp.local y aplica hardening de workstation
 # Ejecutar manualmente después de que el DC esté completamente configurado:
 #   vagrant provision ws01 --provision-with join-domain

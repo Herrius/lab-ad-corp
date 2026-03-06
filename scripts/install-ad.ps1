@@ -1,4 +1,4 @@
-# install-ad.ps1
+﻿# install-ad.ps1
 # Instala AD DS y promueve la máquina a Domain Controller
 # Idempotente: verifica si ya es DC antes de instalar
 
@@ -18,6 +18,13 @@ if ($adapter) {
 
 Write-Host "[*] Instalando rol AD-Domain-Services..."
 Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+# Configurar WinRM con basic auth ANTES de la promoción
+# Después de convertirse en DC, negotiate/NTLM cambia de comportamiento y
+# Vagrant no puede reconectarse. Basic auth sobre HTTP funciona siempre.
+Write-Host "[*] Configurando WinRM para autenticación post-reboot..."
+winrm set winrm/config/service/auth '@{Basic="true"}'
+winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 Write-Host "[*] Promoviendo a Domain Controller (corp.local)..."
 Import-Module ADDSDeployment

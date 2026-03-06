@@ -30,7 +30,8 @@ Vagrant.configure("2") do |config|
     dc.vm.communicator = "winrm"
     dc.vm.guest = :windows
     dc.vm.boot_timeout = 900
-    dc.winrm.transport = :negotiate
+    dc.winrm.transport = :plaintext
+    dc.winrm.basic_auth_only = true
     dc.winrm.retry_limit = 60
     dc.winrm.retry_delay = 10
 
